@@ -1,0 +1,32 @@
+/* index.css */
+body {
+  margin: 0;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  src: url('./assets/FiraSansCondensed-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  src: url('./assets/FiraSansCondensed-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  src: url('./assets/FiraSansCondensed-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+* {
+  font-family: 'Fira Sans Condensed', sans-serif;
+}

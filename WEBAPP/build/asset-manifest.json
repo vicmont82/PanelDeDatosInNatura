@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4a375dea.css",
+    "main.js": "/static/js/main.8928a41c.js",
+    "static/media/FiraSansCondensed-Bold.ttf": "/static/media/FiraSansCondensed-Bold.c069e259efcf998c808d.ttf",
+    "static/media/FiraSansCondensed-Italic.ttf": "/static/media/FiraSansCondensed-Italic.db2bff0f6aed5d7bc40f.ttf",
+    "static/media/FiraSansCondensed-Regular.ttf": "/static/media/FiraSansCondensed-Regular.514b8df8cb3689410cef.ttf",
+    "static/media/logo-marfrig.png": "/static/media/logo-marfrig.a27a940cf84e4172eff5.png",
+    "index.html": "/index.html",
+    "main.4a375dea.css.map": "/static/css/main.4a375dea.css.map",
+    "main.8928a41c.js.map": "/static/js/main.8928a41c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4a375dea.css",
+    "static/js/main.8928a41c.js"
+  ]
+}
