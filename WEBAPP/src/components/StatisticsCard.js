@@ -148,20 +148,22 @@ const StatisticsCard = ({ index }) => {
                 const kosherCounts = fetchedData.reduce(
                     (acc, item) => {
                         if (item["Rito"] === "1") acc.kosher++;
+                        if (item["Rito"] === "4") acc.chalak++;
+                        if (item["Rito"] === "5") acc.mujschard++;
                         if (item["Rito"] === "3") acc.rechazoKosher++;
                         return acc;
                     },
-                    { kosher: 0, rechazoKosher: 0 }
+                    { kosher: 0, chalak: 0, mujschard: 0, rechazoKosher: 0 }
                 );
 
 
                 // Datos en general (sin tropa)
                 const kosherBarData = {
-                    labels: ['Kosher', 'Rechazo Kosher'],
+                    labels: ['Kosher', 'Chalak', 'Mujschard', 'Rechazo Kosher'],
                     datasets: [
                         {
                             label: 'Cantidad',
-                            data: [kosherCounts.kosher, kosherCounts.rechazoKosher],
+                            data: [kosherCounts.kosher, kosherCounts.chalak, kosherCounts.mujschard, kosherCounts.rechazoKosher],
                             backgroundColor: [COLORS[0], COLORS[1]],
                         },
                     ],
@@ -170,7 +172,7 @@ const StatisticsCard = ({ index }) => {
                 // Datos por tropa
                 const tropasFiltradas = Array.from(new Set(
                     fetchedData
-                        .filter(item => item['Rito'] === '1' || item['Rito'] === '3')
+                        .filter(item => item['Rito'] === '1' || item['Rito'] === '4' || item['Rito'] === '5' || item['Rito'] === '3')
                         .map(item => item['Tropa'] || 'Desconocida')
                 ));
 
@@ -187,6 +189,16 @@ const StatisticsCard = ({ index }) => {
                         data: tropasFiltradas.map(tropa => fetchedData.filter(item => item['Tropa'] === tropa && item['Rito'] === '1').length),
                         backgroundColor: COLORS[0],
                     };
+                    const datasetsChalak = {
+                        label: 'Chalak',
+                        data: tropasFiltradas.map(tropa => fetchedData.filter(item => item['Tropa'] === tropa && item['Rito'] === '4').length),
+                        backgroundColor: COLORS[0],
+                    };
+                    const datasetsMujschard = {
+                        label: 'Mujschard',
+                        data: tropasFiltradas.map(tropa => fetchedData.filter(item => item['Tropa'] === tropa && item['Rito'] === '5').length),
+                        backgroundColor: COLORS[0],
+                    };
                     const datasetsRechazoKosher = {
                         label: 'Rechazo Kosher',
                         data: tropasFiltradas.map(tropa => fetchedData.filter(item => item['Tropa'] === tropa && item['Rito'] === '3').length),
@@ -195,7 +207,7 @@ const StatisticsCard = ({ index }) => {
 
                     return {
                         labels: tropasFiltradas,
-                        datasets: [datasetsKosher, datasetsRechazoKosher]
+                        datasets: [datasetsKosher, datasetsChalak, datasetsMujschard,datasetsRechazoKosher]
                     };
                 };
 

@@ -58,10 +58,12 @@ const StatisticsCiclo1 = ({ data }) => {
     const kosherCounts = data.reduce(
         (acc, item) => {
             if (item["Rito"] === "Kosher") acc.kosher++;
+            if (item["Rito"] === "Chalak") acc.chalak++;
+            if (item["Rito"] === "Mujschard") acc.mujschard++;
             if (item["Rito"] === "Rechazo Kosher") acc.rechazoKosher++;
             return acc;
         },
-        { kosher: 0, rechazoKosher: 0 }
+        { kosher: 0, chalak: 0, mujschard: 0,  rechazoKosher: 0 }
     );
 
     const totalKosherRechazo = kosherCounts.kosher + kosherCounts.rechazoKosher;
@@ -81,11 +83,11 @@ const StatisticsCiclo1 = ({ data }) => {
     };
 
     const kosherBarData = {
-        labels: ["Kosher", "Rechazo Kosher"],
+        labels: ["Kosher", "Chalak", "Mujschard", "Rechazo Kosher"],
         datasets: [
             {
                 label: 'Cantidad',
-                data: [kosherCounts.kosher, kosherCounts.rechazoKosher],
+                data: [kosherCounts.kosher, kosherCounts.chalak, kosherCounts.mujschard, kosherCounts.rechazoKosher],
                 backgroundColor: [COLORS[0], COLORS[1]],
                 datalabels: { // Configuración de etiquetas específicas para este dataset
                     color: '#FFFFFF', // Blanco para mejor contraste
@@ -132,7 +134,7 @@ const StatisticsCiclo1 = ({ data }) => {
         // Filtrar las tropas que tienen al menos un "Kosher" o "Rechazo Kosher"
         const tropasFiltradas = Array.from(new Set(
             data
-                .filter(item => item['Rito'] === 'Kosher' || item['Rito'] === 'Rechazo Kosher')
+                .filter(item => item['Rito'] === 'Kosher' || item['Rito'] === 'Chalak' || item['Rito'] === 'Mujschard' || item['Rito'] === 'Rechazo Kosher')
                 .map(item => item['Tropa'] || 'Desconocida')
         ));
 
@@ -147,6 +149,31 @@ const StatisticsCiclo1 = ({ data }) => {
         const datasetsKosher = {
             label: 'Kosher',
             data: tropasFiltradas.map(tropa => data.filter(item => item['Tropa'] === tropa && item['Rito'] === 'Kosher').length),
+            backgroundColor: COLORS[0],
+            datalabels: { // Configuración de etiquetas específicas para este dataset
+                color: '#FFFFFF', // Blanco para mejor contraste
+                font: {
+                    weight: 'bold',
+                    size: 12, // Opcional: Ajusta el tamaño de la fuente
+                }
+            }
+        };
+
+        const datasetsChalak = {
+            label: 'Chalak',
+            data: tropasFiltradas.map(tropa => data.filter(item => item['Tropa'] === tropa && item['Rito'] === 'Chalak').length),
+            backgroundColor: COLORS[0],
+            datalabels: { // Configuración de etiquetas específicas para este dataset
+                color: '#FFFFFF', // Blanco para mejor contraste
+                font: {
+                    weight: 'bold',
+                    size: 12, // Opcional: Ajusta el tamaño de la fuente
+                }
+            }
+        };
+        const datasetMujschard = {
+            label: 'Mujschard',
+            data: tropasFiltradas.map(tropa => data.filter(item => item['Tropa'] === tropa && item['Rito'] === 'Mujschard').length),
             backgroundColor: COLORS[0],
             datalabels: { // Configuración de etiquetas específicas para este dataset
                 color: '#FFFFFF', // Blanco para mejor contraste
@@ -171,7 +198,7 @@ const StatisticsCiclo1 = ({ data }) => {
 
         return {
             labels: tropasFiltradas,
-            datasets: [datasetsKosher, datasetsRechazoKosher]
+            datasets: [datasetsKosher, datasetsChalak, datasetMujschard, datasetsRechazoKosher]
         };
     };
 
@@ -189,7 +216,7 @@ const StatisticsCiclo1 = ({ data }) => {
                         const value = tooltipItem.raw;
                         // Calcula el total de Kosher y Rechazo Kosher para la tropa específica
                         const tropa = tooltipItem.label;
-                        const totalTropa = data.filter(item => item['Tropa'] === tropa && (item['Rito'] === 'Kosher' || item['Rito'] === 'Rechazo Kosher')).length;
+                        const totalTropa = data.filter(item => item['Tropa'] === tropa && (item['Rito'] === 'Kosher' || item['Rito'] === 'Chalak' || item['Rito'] === 'Mujschard' || item['Rito'] === 'Rechazo Kosher')).length;
                         const percent = totalTropa > 0 ? ((value / totalTropa) * 100).toFixed(2) : 0;
                         return `${tooltipItem.dataset.label}: ${value} (${percent}%)`;
                     }
